@@ -1,3 +1,4 @@
+from pyexpat import model
 import torch
 import random
 import numpy as np
@@ -107,7 +108,12 @@ def train():
     record = 0
     agent = Agent()
     game = SnakeGameAI()
+    load_model = True
+    if load_model:
+        print("-----load------")
+        agent.model.load()
     while True:
+
         # get old state
         state_old = agent.get_state(game)
 
@@ -133,6 +139,7 @@ def train():
             if score > record:
                 record = score
                 agent.model.save()
+                print("-----save------")
 
             print('Game', agent.n_games, 'Score', score, 'Record:', record)
 
@@ -142,6 +149,33 @@ def train():
             plot_mean_scores.append(mean_score)
             plot(plot_scores, plot_mean_scores)
 
+def play():
+    plot_scores = []
+    plot_mean_scores = []
+    total_score = 0
+    record = 0
+    agent = Agent()
+    game = SnakeGameAI(game_speed= 40)
+    print("-----load------")
+    agent.model.load()
+    while True:
 
+        # get old state
+        state_old = agent.get_state(game)
+
+        # get move
+        final_move = agent.get_action(state_old)
+
+        # perform move and get new state
+        reward, done, score = game.play_step(final_move)
+        state_new = agent.get_state(game)
+
+        if done:
+            # train long memory, plot result
+            game.reset()
+            agent.n_games += 1
+
+            print('Game', agent.n_games, 'Score', score)
 if __name__ == '__main__':
     train()
+    #play()

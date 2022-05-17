@@ -8,3 +8,13 @@ You can find all tutorials on my channel: [Playlist](https://www.youtube.com/pla
 - Part 2: Learn how to setup the environment and implement the Snake game.
 - Part 3: Implement the agent that controls the game.
 - Part 4: Implement the neural network to predict the moves and train it.
+
+# Requirement
+- pip install pygame
+- pip install torch
+- pip install torchvision
+- pip install matplotlib
+- pip install ipython
+
+# Resource 
+- https://pytorch.org/tutorials/beginner/saving_loading_models.html

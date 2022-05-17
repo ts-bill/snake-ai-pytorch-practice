@@ -9,6 +9,8 @@ class Linear_QNet(nn.Module):
         super().__init__()
         self.linear1 = nn.Linear(input_size, hidden_size)
         self.linear2 = nn.Linear(hidden_size, output_size)
+        #self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+        #self.to(self.device)
 
     def forward(self, x):
         x = F.relu(self.linear1(x))
@@ -22,6 +24,13 @@ class Linear_QNet(nn.Module):
 
         file_name = os.path.join(model_folder_path, file_name)
         torch.save(self.state_dict(), file_name)
+        print(self.linear1.weight, self.linear2.weight)
+
+    def load(self,file_name='model.pth'):
+        model_folder_path = './model'
+        file_name = os.path.join(model_folder_path, file_name)
+        self.load_state_dict(torch.load(file_name))
+        print(self.linear1.weight, self.linear2.weight)
 
 
 class QTrainer:
@@ -32,7 +41,9 @@ class QTrainer:
         self.optimizer = optim.Adam(model.parameters(), lr=self.lr)
         self.criterion = nn.MSELoss()
 
+
     def train_step(self, state, action, reward, next_state, done):
+        #device = self.model.device
         state = torch.tensor(state, dtype=torch.float)
         next_state = torch.tensor(next_state, dtype=torch.float)
         action = torch.tensor(action, dtype=torch.long)

@@ -24,17 +24,18 @@ BLUE2 = (0, 100, 255)
 BLACK = (0,0,0)
 
 BLOCK_SIZE = 20
-SPEED = 40
+SPEED = 10000
 
 class SnakeGameAI:
 
-    def __init__(self, w=640, h=480):
+    def __init__(self, w=640, h=480, game_speed = SPEED):
         self.w = w
         self.h = h
         # init display
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
+        self.game_speed = game_speed
         self.reset()
 
 
@@ -91,7 +92,7 @@ class SnakeGameAI:
         
         # 5. update ui and clock
         self._update_ui()
-        self.clock.tick(SPEED)
+        self.clock.tick(self.game_speed)
         # 6. return game over and score
         return reward, game_over, self.score
 
