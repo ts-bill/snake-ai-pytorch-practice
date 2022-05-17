@@ -1,3 +1,4 @@
+from matplotlib import image
 import pygame
 import random
 from enum import Enum
@@ -36,6 +37,8 @@ class SnakeGameAI:
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
         self.game_speed = game_speed
+        load_pic = pygame.image.load("./snake_head.jpg")
+        self.image = pygame.transform.scale(load_pic, (BLOCK_SIZE, BLOCK_SIZE))
         self.reset()
 
 
@@ -58,6 +61,7 @@ class SnakeGameAI:
         x = random.randint(0, (self.w-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
         y = random.randint(0, (self.h-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
         self.food = Point(x, y)
+        self.display.blit(self.image, (x,y))
         if self.food in self.snake:
             self._place_food()
 
@@ -118,7 +122,7 @@ class SnakeGameAI:
             pygame.draw.rect(self.display, BLUE2, pygame.Rect(pt.x+4, pt.y+4, 12, 12))
 
         pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
-
+        self.display.blit(self.image, (self.head.x,self.head.y))
         text = font.render("Score: " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.flip()

@@ -155,7 +155,7 @@ def play():
     total_score = 0
     record = 0
     agent = Agent()
-    game = SnakeGameAI(game_speed= 40)
+    game = SnakeGameAI(game_speed= 10)
     print("-----load------")
     agent.model.load()
     while True:
@@ -177,5 +177,5 @@ def play():
 
             print('Game', agent.n_games, 'Score', score)
 if __name__ == '__main__':
-    train()
-    #play()
+    #train()
+    play()
